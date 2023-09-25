@@ -1,103 +1,144 @@
 import { useState } from "react";
+import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
+import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 
 
-const SignUpForm = () =>{
+
+const SignUpForm = ({ setlogIn }) => {
 
     const navigate = useNavigate();
+    const [showPassword, setShowPassword] = useState(false);
+    const [showPassword2, setShowPassword2] = useState(false);
+    const [accountType, setAccountType] = useState("student");
 
     const [formdata, setFormData] = useState({
-        firstName:"",
-        lastName:"",
-        email:"",
-        password:"",
-        ConfirmPass:"",
+        firstName: "",
+        lastName: "",
+        email: "",
+        password: "",
+        ConfirmPass: "",
     });
-  console.log("formdata is ", formdata);
-    function changeHandler(event){
+    console.log("formdata is ", formdata);
+    function changeHandler(event) {
         const { name, value, checked, type } = event.target;
         setFormData(prevData => {
-          return {
-            ...prevData,
-            [name] : type === "checkbox" ? checked : value
-          }
+            return {
+                ...prevData,
+                [name]: type === "checkbox" ? checked : value
+            }
         });
     }
 
-    function submitHandler(event){
-      event.preventDefault();
-      console.log("Submitted Successfully");
-      console.log(formdata);
-      navigate('/dashboard');
+    function submitHandler(event) {
+        event.preventDefault();
+        if (formdata.password !== formdata.ConfirmPass) {
+            toast.error("Password Do Not Mached");
+            return;
+        }
+        setlogIn(true);
+        toast.success("Account Created");
+        console.log(formdata);
+        navigate('/dashboard');
     }
-   
-    return(
-       <form onSubmit={submitHandler} className="text-white">
-            <div>
-                <button>
-                    Student
+    function setShowPasswordHandler() {
+        setShowPassword((prev) => !prev);
+    }
+    function setShowPasswordHandler2() {
+        setShowPassword2((prev) => !prev);
+    }
+    
+    const finalData = {
+        accountType
+      }
+    return (
+        <form onSubmit={submitHandler} className="text-white mt-8">
+            <div className="flex bg-richblack-800 max-w-max rounded-full p-1 gap-x-1">
+                <button
+                className={`${accountType === "student"
+                ?
+              "bg-richblack-900 text-richblack-5"
+              : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+                onClick={() => setAccountType("student")}>
+                Student
                 </button>
-                <button>
-                    Teacher
+                <button
+                  className={`${accountType === "instructor"
+                  ?
+                  "bg-richblack-900 text-richblack-5"
+                  : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+                  onClick={() => setAccountType("instructor")}>
+                  Instructor
                 </button>
-            
             </div>
 
-            <div className="flex">
-                <label htmlFor="firstName">First Name
-                    <input 
-                    id="firstName"
-                    type="text"
-                    name="firstName"
-                    value={formdata.firstName}
-                    onChange={changeHandler}
+            <div className="flex gap-x-4">
+                <label htmlFor="firstName" className="w-full text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">First Name
+                    <input
+                        id="firstName"
+                        type="text"
+                        name="firstName"
+                        value={formdata.firstName}
+                        onChange={changeHandler}
+                        className="bg-richblack-800 rounded-[4px] w-full px-[12px] py-[8px]"
                     />
                 </label>
-                <label htmlFor="lastName">Last Name
-                    <input 
-                    id="lastName"
-                    type="text"
-                    name="lastName"
-                    value={formdata.lastName}
-                    onChange={changeHandler}
+                <label htmlFor="lastName" className="w-full text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Last Name
+                    <input
+                        id="lastName"
+                        type="text"
+                        name="lastName"
+                        value={formdata.lastName}
+                        onChange={changeHandler}
+                        className="bg-richblack-800 rounded-[4px] w-full px-[12px] py-[8px]"
                     />
                 </label>
             </div>
-            <label htmlFor="email">Email Address
+            <label htmlFor="email" className="w-full text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem] ">Email Address
                 <input
+                    required
                     type="email"
                     placeholder="Enter Email"
                     name="email"
                     id="email"
                     value={formdata.email}
                     onChange={changeHandler}
-                    />
+                    className="bg-richblack-800 rounded-[4px] w-full px-[12px] py-[8px]"
+                />
             </label>
-            <div className="flex">
-                <label htmlFor="password">Create Password
+            <div className="flex gap-x-4">
+                <label htmlFor="password" className="w-full relative text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Create Password
                     <input
-                    type="password"
-                    placeholder="Password"
-                    name="password"
-                    id="password"
-                    value={formdata.password}
-                    onChange={changeHandler}
+                        type={showPassword ? "text" : "password"}
+                        placeholder="Password"
+                        name="password"
+                        id="password"
+                        value={formdata.password}
+                        onChange={changeHandler}
+                        className="bg-richblack-800 rounded-[4px] w-full px-[12px] py-[8px]"
                     />
+                    <span onClick={setShowPasswordHandler}  className="absolute top-[38px] right-3 z-10 cursor-pointer">
+                        {showPassword ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)}
+                    </span>
                 </label>
-              
-                <label htmlFor="ConfirmPass">Confirm Password
+
+                <label htmlFor="ConfirmPass"  className="w-full relative text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Confirm Password
                     <input
-                    type="password"
-                    placeholder="Re-Enter Password"
-                    name="ConfirmPass"
-                    id="ConfirmPass"
-                    value={formdata.ConfirmPass}
-                    onChange={changeHandler}
+                        type={showPassword2 ? "text" : "password"}
+                        placeholder="Re-Enter Password"
+                        name="ConfirmPass"
+                        id="ConfirmPass"
+                        value={formdata.ConfirmPass}
+                        onChange={changeHandler}
+                        className="bg-richblack-800 rounded-[4px] w-full px-[12px] py-[8px]"
                     />
+                    <span onClick={setShowPasswordHandler2} className="absolute top-[38px] right-3 z-10 cursor-pointer">
+                        {showPassword2 ? (<AiOutlineEye />) : (<AiOutlineEyeInvisible />)}
+                    </span>
                 </label>
-            </div>  
-           <button>Create Account</button>
-       </form>
+            </div>
+            <button className="w-full bg-yellow-50 text-richblack-900 font-semibold px-[12px] rounded-[8px] py-[8px] mt-6">Create Account</button>
+        </form>
     );
 }
 export default SignUpForm;

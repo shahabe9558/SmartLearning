@@ -1,17 +1,18 @@
 import React from "react";
 import toast from "react-hot-toast";
-import { Link } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
+
 
 const Navbar = (props) => {
     let islogedIn = props.islogedIn;
     let setlogIn = props.setlogIn;
     return(
-        <div className=" w-10/12 flex justify-around text-white">
+        <div className="w-11/12 max-w-[1160px] mx-auto flex flex-row justify-between items-center py-4 text-white">
             <Link to="/"> 
                  <img className="" src="../images/Logo.png" width={160} height={32} loading="lazy"/>
             </Link>
             <nav>
-                <ul className="flex gap-3">
+                <ul className="flex gap-x-6">
                     <li>
                        <Link to= '/'>Home</Link>
                     </li>
@@ -24,17 +25,17 @@ const Navbar = (props) => {
                 </ul>
             </nav>
             {/* buttom creation  */}
-            <div className="flex ml-5 mr-3 gap-3">
+            <div className="flex items-center gap-x-4">
                 { !islogedIn &&
                     <Link to='/login'>
-                        <button>
+                        <button className=" bg-gray-900 py-[8px] px-[12px] rounded-[8px] border bg-gray-950 hover:border-yellow-300 transition-all duration-200">
                             Login
                         </button>
                     </Link>
                 }
                 { !islogedIn &&
                     <Link to='/signup'>
-                        <button>
+                        <button  className=" bg-gray-900 py-[8px] px-[12px] rounded-[8px] border bg-gray-950 hover:border-yellow-300 transition-all duration-200" >
                             Sign Up
                         </button>
                     </Link>
@@ -44,14 +45,14 @@ const Navbar = (props) => {
                         <button onClick={() => {
                             setlogIn(false);
                             toast.success("Logged Out");
-                        } }>
+                        } }  className=" bg-gray-900 py-[8px] px-[12px] rounded-[8px] border bg-gray-950 hover:border-yellow-300 transition-all duration-200">
                             Log Out
                         </button>
                     </Link>
                 }
                 { islogedIn &&
                     <Link to='/dashboard'>
-                        <button>
+                        <button  className=" bg-gray-900 py-[8px] px-[12px] rounded-[8px] border bg-gray-950 hover:border-yellow-300 transition-all duration-200">
                             Dashboard
                         </button>
                     </Link>

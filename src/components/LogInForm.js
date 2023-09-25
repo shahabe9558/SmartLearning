@@ -2,6 +2,7 @@ import { useState } from "react";
 import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import toast, { toastoast } from "react-hot-toast";
+import { Link } from "react-router-dom";
 
 const LogInForm = ({setlogIn}) => {
      
@@ -34,9 +35,9 @@ const LogInForm = ({setlogIn}) => {
       setShowPassword((prev) => !prev)
     }
     return(
-        <form onSubmit={submitHandler} className="">
-            <label htmlFor="email1">Email Address
-                <sup>*</sup>
+        <form onSubmit={submitHandler} className="flex flex-col w-full gap-y-4 mt-6">
+            <label htmlFor="email1" className="w-full text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">Email Address
+                <sup className="text-pink-400">*</sup>
             </label>
             <input 
             id="email1"
@@ -46,12 +47,12 @@ const LogInForm = ({setlogIn}) => {
             placeholder="Enter Email"
             value={FormData.email}
             onChange={changeHandler}
-            className="text-black"
+            className="bg-richblack-800 rounded-[0.75rem] w-full p-[12px] text-richblack-5"
             />
             
-            <label htmlFor="pass">
-                <p>
-                    Password <sup>*</sup>
+            <label htmlFor="pass" className="w-full relative">
+                <p className="text-[0.875rem] text-richblack-5 mb-1 leading-[1.375rem]">
+                    Password <sup className="text-pink-400">*</sup>
                 </p>
                 <input
                 required
@@ -61,17 +62,18 @@ const LogInForm = ({setlogIn}) => {
                 value={FormData.password}
                 onChange={changeHandler}
                 placeholder="Password"
-                className="text-black"
+                className="bg-richblack-800 rounded-[0.75rem] w-full p-[12px] text-richblack-5"
                 />
-                <span onClick={setShowPasswordHandler}>
-                      {showPassword ? (<AiOutlineEye/>) : (<AiOutlineEyeInvisible/>)}
+                <span onClick={setShowPasswordHandler} className="absolute right-3 top-[38px] cursor-pointer">
+                      {showPassword ? (<AiOutlineEye fontSize={24} fill="#AFB2BF"/>) : (<AiOutlineEyeInvisible fontSize={24} fill="#AFB2BF"/>)}
                 </span>
-                
-
-                {/* <span onClick={() => setShowPassword((prev) => !prev )}></span>
-                {showPassword ? (<AiOutlineEyeInvisible/>) :(<AiOutlineEye/>)} */}
+                <Link to="#">
+                    <p className="text-xs mt-1 text-blue-100 max-w-max ml-auto">
+                        Forgot Password
+                    </p>
+                </Link>
             </label>
-            <button className="text-white">Sign In</button>  
+            <button className="bg-yellow-50 py-[8px] px-[12px] rounded-[8px] mt-6 font-semibold text-black">Sign In</button>  
         </form>
     );
 
