@@ -32,7 +32,6 @@ const Template = ({ title, desc1, desc2, image, formType, setlogIn }) => {
                width={558}
                height={504}
                loading="lazy"
-               className="absolute"
                 />
 
                <img 
@@ -41,9 +40,8 @@ const Template = ({ title, desc1, desc2, image, formType, setlogIn }) => {
                width={570}
                height={570}
                loading="lazy"
-               className="absolute right-3 bottom-28"
+               className="absolute -top-4 right-4"
                />
-
          </div>
       </div>
    );

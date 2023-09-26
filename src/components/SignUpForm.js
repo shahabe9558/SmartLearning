@@ -10,7 +10,7 @@ const SignUpForm = ({ setlogIn }) => {
     const navigate = useNavigate();
     const [showPassword, setShowPassword] = useState(false);
     const [showPassword2, setShowPassword2] = useState(false);
-    const [accountType, setAccountType] = useState("student");
+    const [accountType, setAccountType] = useState({accountType:"student"});
 
     const [formdata, setFormData] = useState({
         firstName: "",
@@ -29,52 +29,59 @@ const SignUpForm = ({ setlogIn }) => {
             }
         });
     }
-
-    function submitHandler(event) {
-        event.preventDefault();
-        if (formdata.password !== formdata.ConfirmPass) {
-            toast.error("Password Do Not Mached");
-            return;
-        }
-        setlogIn(true);
-        toast.success("Account Created");
-        console.log(formdata);
-        navigate('/dashboard');
-    }
     function setShowPasswordHandler() {
         setShowPassword((prev) => !prev);
     }
     function setShowPasswordHandler2() {
         setShowPassword2((prev) => !prev);
     }
+
+    const submitHandler = (event) => {
+        event.preventDefault();
+        if (formdata.createPassword != formdata.confirmPassword) {
+          toast.error("Passwords do not match");
+          return;
+        }
     
-    const finalData = {
-        accountType
+        const finalData = {
+          ...formdata,
+          accountType
+        }
+    
+        console.log(finalData);
+        setlogIn(true);
+    
+        toast.success("Account Create Successfull");
+    
+        navigate("./loginServer/routes/signup");
       }
+    
     return (
         <form onSubmit={submitHandler} className="text-white mt-8">
             <div className="flex bg-richblack-800 max-w-max rounded-full p-1 gap-x-1">
-                <button
-                className={`${accountType === "student"
-                ?
-              "bg-richblack-900 text-richblack-5"
-              : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-                onClick={() => setAccountType("student")}>
-                Student
-                </button>
-                <button
-                  className={`${accountType === "instructor"
-                  ?
-                  "bg-richblack-900 text-richblack-5"
-                  : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
-                  onClick={() => setAccountType("instructor")}>
-                  Instructor
-                </button>
+            <div
+          className={`${accountType === "student"
+            ?
+            "bg-richblack-900 text-richblack-5"
+            : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+          onClick={() => setAccountType("student")}>
+          Student
+        </div>
+
+        <div
+          className={`${accountType === "instructor"
+            ?
+            "bg-richblack-900 text-richblack-5"
+            : "bg-transparent text-richblack-200"} py-2 px-5 rounded-full transition-all duration-200`}
+          onClick={() => setAccountType("instructor")}>
+          Instructor
+        </div>
             </div>
 
             <div className="flex gap-x-4">
                 <label htmlFor="firstName" className="w-full text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">First Name
                     <input
+                        required
                         id="firstName"
                         type="text"
                         name="firstName"
@@ -85,6 +92,7 @@ const SignUpForm = ({ setlogIn }) => {
                 </label>
                 <label htmlFor="lastName" className="w-full text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Last Name
                     <input
+                        required
                         id="lastName"
                         type="text"
                         name="lastName"
@@ -109,6 +117,7 @@ const SignUpForm = ({ setlogIn }) => {
             <div className="flex gap-x-4">
                 <label htmlFor="password" className="w-full relative text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Create Password
                     <input
+                        required
                         type={showPassword ? "text" : "password"}
                         placeholder="Password"
                         name="password"
@@ -124,6 +133,7 @@ const SignUpForm = ({ setlogIn }) => {
 
                 <label htmlFor="ConfirmPass"  className="w-full relative text-richblack-5 mb-1 text-[0.875rem] leading-[1.375rem]">Confirm Password
                     <input
+                        required
                         type={showPassword2 ? "text" : "password"}
                         placeholder="Re-Enter Password"
                         name="ConfirmPass"
