@@ -9,7 +9,6 @@ const Login = ({setlogIn}) =>{
         image={'../images/login.png'}
         formType={"login"}
         setlogIn={setlogIn}
-
         />
     );
 }
