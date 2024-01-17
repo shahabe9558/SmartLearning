@@ -2,6 +2,9 @@ import { useState } from "react";
 import toast from "react-hot-toast";
 import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
+import { singUpApi } from "../services/apis";
+import { apiConnector } from "../services/apiConnector";
+
 
 
 
@@ -19,6 +22,7 @@ const SignUpForm = ({ setlogIn }) => {
         password: "",
         ConfirmPass: "",
     });
+    const{firstName, email, password} = formdata;
     console.log("formdata is ", formdata);
     function changeHandler(event) {
         const { name, value, checked, type } = event.target;
@@ -36,9 +40,14 @@ const SignUpForm = ({ setlogIn }) => {
         setShowPassword2((prev) => !prev);
     }
 
+    const apiCall = async(name, email, password)=>{
+        console.log("api calles succefully");
+        let response = await apiConnector("POST", singUpApi.SIGN_UP_API, {name, email, password});
+    }
+
     const submitHandler = (event) => {
         event.preventDefault();
-        if (formdata.createPassword != formdata.confirmPassword) {
+        if (formdata.password != formdata.ConfirmPass) {
           toast.error("Passwords do not match");
           return;
         }
@@ -48,12 +57,12 @@ const SignUpForm = ({ setlogIn }) => {
           accountType
         }
     
-        console.log(finalData);
         setlogIn(true);
+        
+        apiCall(firstName, email, password);
+        // toast.success("Account Create Successfull");
     
-        toast.success("Account Create Successfull");
-    
-        navigate("./loginServer/routes/signup");
+        // navigate("./loginServer/routes/signup");
       }
     
     return (

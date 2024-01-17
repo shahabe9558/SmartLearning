@@ -11,6 +11,10 @@ connectdb();
 
 // json file parse or body parsser
 app.use(express.json());
+const cors = require('cors');
+app.use(cors());
+// const cors = require('cors');
+// app.use(cors);
 
 const signRoutes = require('./routes/User');
 
@@ -22,5 +26,5 @@ app.listen(PORT, () => {
 });
 
 app.get('/', (req, res) =>{
-  res.send("Everthing working in the home page");
+  res.send("<h1>Things are going right in home page");
 });
