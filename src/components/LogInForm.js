@@ -3,6 +3,8 @@ import {AiOutlineEye, AiOutlineEyeInvisible} from "react-icons/ai";
 import { useNavigate } from "react-router-dom";
 import toast, { toastoast } from "react-hot-toast";
 import { Link } from "react-router-dom";
+import { apiConnector } from "../services/apiConnector";
+import { loginapi } from "../services/apis";
 
 const LogInForm = ({setlogIn}) => {
      
@@ -20,14 +22,20 @@ const LogInForm = ({setlogIn}) => {
           }
         });
     }
-    
+    const {email, password} = FormData;
+    const apiCall = async (email, password) =>{
+        console.log("Api called again");
+        let response = await apiConnector("POST", loginapi.LOGIN_API, {email, password});
+        console.log("Respone is ", response);
+    }
     function submitHandler(event){
         event.preventDefault();
         setlogIn(true);
-        navigate('/dashboard')
-        toast.success("Logged In");
-        console.log("Logged in");
+        // toast.success("Logged In");
+        // console.log("Logged in");
         console.log(FormData);
+        apiCall(email, password);
+        navigate('/dashboard')
 
     }
     function setShowPasswordHandler(){

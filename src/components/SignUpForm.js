@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { AiOutlineEye, AiOutlineEyeInvisible } from "react-icons/ai";
 import { singUpApi } from "../services/apis";
 import { apiConnector } from "../services/apiConnector";
+import LogInForm from "./LogInForm";
 
 
 
@@ -43,6 +44,7 @@ const SignUpForm = ({ setlogIn }) => {
     const apiCall = async(name, email, password)=>{
         console.log("api calles succefully");
         let response = await apiConnector("POST", singUpApi.SIGN_UP_API, {name, email, password});
+        navigate('/login');
     }
 
     const submitHandler = (event) => {
