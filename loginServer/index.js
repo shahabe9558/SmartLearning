@@ -11,10 +11,10 @@ connectdb();
 
 // json file parse or body parsser
 app.use(express.json());
+// to connect the communicate the frontend and backend part 
 const cors = require('cors');
 app.use(cors());
-// const cors = require('cors');
-// app.use(cors);
+
 
 const signRoutes = require('./routes/User');
 
@@ -26,5 +26,5 @@ app.listen(PORT, () => {
 });
 
 app.get('/', (req, res) =>{
-  res.send("<h1>Things are going right in home page");
+  res.send("<h1>Things are going right in home page</h1>");
 });
